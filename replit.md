@@ -91,6 +91,30 @@ Generated Zod schemas from the OpenAPI spec (e.g. `HealthCheckResponse`). Used b
 
 Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHealthCheck`, `healthCheck`).
 
+### `artifacts/the-hive` (`@workspace/the-hive`)
+
+The Hive — Kenya-first anonymous reward aggregator frontend. React + Vite + Tailwind + shadcn/ui. Uses generated React Query hooks from `@workspace/api-client-react`.
+
+- Preview path: `/the-hive/`
+- Pages: `src/pages/home.tsx` (offer list + stats), `src/pages/offer-detail.tsx` (single offer), `src/pages/how-it-works.tsx`
+- Routing: `wouter`
+- `pnpm --filter @workspace/the-hive run dev` — dev server
+
+### API Routes (api-server)
+
+- `GET /api/offers` — list all offers (filter by tier, mpesa, status; sort by netProfitKes or hourlyRateKes)
+- `GET /api/offers/:id` — single offer detail
+- `GET /api/go/:platform` — referral redirect (logs click, returns 301 to affiliateLink)
+- `GET /api/stats/summary` — top-line numbers (highestNetProfitKes, bestHourlyRateKes, totalActiveOffers)
+- `GET /api/stats/top-offers` — top 5 offers by netProfitKes and hourlyRateKes
+- `GET /api/health` — health check
+
+### Database Tables
+
+- `offers` — platform listings with tier, KES figures, M-Pesa compat, safety rating, personal test status
+- `click_logs` — one row per `/go/:platform` hit (referrer, IP hash, user agent)
+- `personal_tests` — log of personal verification sessions
+
 ### `scripts` (`@workspace/scripts`)
 
 Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`. Scripts can import any workspace package (e.g., `@workspace/db`) by adding it as a dependency in `scripts/package.json`.

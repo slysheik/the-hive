@@ -3,13 +3,20 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: The Hive Kenya — offer aggregator API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: offers
+    description: Earning opportunity offer management
+  - name: redirect
+    description: Affiliate referral redirect tracking
+  - name: stats
+    description: Dashboard and aggregate statistics
+
 paths:
   /healthz:
     get:
@@ -24,6 +31,118 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /offers:
+    get:
+      operationId: listOffers
+      tags: [offers]
+      summary: List all active offers
+      parameters:
+        - name: tier
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [A, C, D]
+          description: Filter by tier (A=deposit bonus, C=gaming, D=tasks)
+        - name: mpesa
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [direct, via_crypto, no]
+          description: Filter by M-Pesa compatibility
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [net_profit_kes, hourly_rate_kes, last_verified]
+            default: net_profit_kes
+          description: Sort field
+      responses:
+        "200":
+          description: List of offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Offer"
+
+  /offers/{id}:
+    get:
+      operationId: getOffer
+      tags: [offers]
+      summary: Get a single offer by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Offer details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+        "404":
+          description: Offer not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /go/{platform}:
+    get:
+      operationId: referralRedirect
+      tags: [redirect]
+      summary: Log referral click and redirect to affiliate URL
+      parameters:
+        - name: platform
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Platform slug (e.g. freecash, jumptask)
+      responses:
+        "302":
+          description: Redirect to affiliate URL
+        "404":
+          description: Platform not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /stats/summary:
+    get:
+      operationId: getSummary
+      tags: [stats]
+      summary: Dashboard summary stats
+      responses:
+        "200":
+          description: Summary statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SummaryStats"
+
+  /stats/top-offers:
+    get:
+      operationId: getTopOffers
+      tags: [stats]
+      summary: Top 5 offers by net KES and by hourly rate
+      responses:
+        "200":
+          description: Top offers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopOffers"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +153,141 @@ components:
       required:
         - status
 
+    Offer:
+      type: object
+      properties:
+        id:
+          type: integer
+        platformName:
+          type: string
+        tier:
+          type: string
+          enum: [A, C, D]
+        depositUsd:
+          type: number
+          nullable: true
+        bonusUsd:
+          type: number
+          nullable: true
+        lockDays:
+          type: integer
+          nullable: true
+        withdrawalFeeUsd:
+          type: number
+          nullable: true
+        netProfitKes:
+          type: number
+        hoursRequired:
+          type: number
+          nullable: true
+        hourlyRateKes:
+          type: number
+          nullable: true
+        activityRequirement:
+          type: string
+          nullable: true
+        geographicKenya:
+          type: boolean
+        mpesaCompatible:
+          type: string
+          enum: [direct, via_crypto, no]
+        kycRequired:
+          type: boolean
+        kycTimeDays:
+          type: integer
+          nullable: true
+        affiliateLink:
+          type: string
+          nullable: true
+        safetyRating:
+          type: string
+          enum: [established, new, risky]
+        lastVerified:
+          type: string
+          format: date
+          nullable: true
+        personalTested:
+          type: boolean
+        personalNotes:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [active, unconfirmed, expired]
+        annualisedReturnPct:
+          type: number
+          nullable: true
+          description: Annualised return % for Tier A deposit offers
+        rateUsedKes:
+          type: number
+          nullable: true
+          description: KES/USD exchange rate used at time of last calculation
+        rateCheckedAt:
+          type: string
+          format: date
+          nullable: true
+      required:
+        - id
+        - platformName
+        - tier
+        - netProfitKes
+        - geographicKenya
+        - mpesaCompatible
+        - kycRequired
+        - safetyRating
+        - personalTested
+        - status
+
+    SummaryStats:
+      type: object
+      properties:
+        totalActiveOffers:
+          type: integer
+        totalByTier:
+          type: object
+          properties:
+            A:
+              type: integer
+            C:
+              type: integer
+            D:
+              type: integer
+          required: [A, C, D]
+        personalTestedCount:
+          type: integer
+        unconfirmedCount:
+          type: integer
+        highestNetProfitKes:
+          type: number
+        bestHourlyRateKes:
+          type: number
+      required:
+        - totalActiveOffers
+        - totalByTier
+        - personalTestedCount
+        - unconfirmedCount
+        - highestNetProfitKes
+        - bestHourlyRateKes
+
+    TopOffers:
+      type: object
+      properties:
+        byNetProfit:
+          type: array
+          items:
+            $ref: "#/components/schemas/Offer"
+        byHourlyRate:
+          type: array
+          items:
+            $ref: "#/components/schemas/Offer"
+      required:
+        - byNetProfit
+        - byHourlyRate
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error

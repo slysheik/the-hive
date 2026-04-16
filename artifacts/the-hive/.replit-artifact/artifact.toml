@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/the-hive/"
+title = "The Hive"
+version = "1.0.0"
+id = "artifacts/the-hive"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/the-hive/" ]
+localPort = 23092
+
+[services.development]
+run = "pnpm --filter @workspace/the-hive run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/the-hive", "run", "build" ]
+publicDir = "artifacts/the-hive/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23092"
+BASE_PATH = "/the-hive/"
