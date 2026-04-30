@@ -4,6 +4,13 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
+## Git & GitHub Notes
+
+- Remote: `https://github.com/slysheik/the-hive.git` (target — `.git/config` may still point to the old `slysheik/System-Hive` until the remote is updated from the shell)
+- The Replit GitHub OAuth integration was offered to the user twice and dismissed both times. Future agents: do NOT re-propose the GitHub connector. Instead, ask the user to either (a) push manually from the Replit shell, or (b) provide a GitHub Personal Access Token to be stored as the `GITHUB_TOKEN` secret.
+- Destructive git ops (`git remote set-url`, `git push`, `rm .git/*`, even direct write tool edits to `.git/`) are blocked at the platform level for the main agent. Pushing must be done either by the user from the shell or via a PAT-authenticated remote URL stored in a secret.
+- Full git workflow reference: `the-hive/docs/GIT_GITHUB_GUIDE.md`
+
 ## Stack
 
 - **Monorepo tool**: pnpm workspaces
