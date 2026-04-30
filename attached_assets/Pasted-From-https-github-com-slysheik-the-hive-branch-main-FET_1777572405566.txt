@@ -1,0 +1,21 @@
+From https://github.com/slysheik/the-hive
+ * branch            main       -> FETCH_HEAD
+ + cbfc7bc...bc1759d main       -> origin/main  (forced update)
+CONFLICT (modify/delete): .replit deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of .replit left in tree.
+CONFLICT (modify/delete): artifacts/api-server/src/routes/index.ts deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of artifacts/api-server/src/routes/index.ts left in tree.
+CONFLICT (modify/delete): lib/api-client-react/src/generated/api.schemas.ts deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of lib/api-client-react/src/generated/api.schemas.ts left in tree.
+CONFLICT (modify/delete): lib/api-client-react/src/generated/api.ts deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of lib/api-client-react/src/generated/api.ts left in tree.
+CONFLICT (modify/delete): lib/api-spec/openapi.yaml deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of lib/api-spec/openapi.yaml left in tree.
+CONFLICT (modify/delete): lib/api-zod/src/generated/api.ts deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of lib/api-zod/src/generated/api.ts left in tree.
+CONFLICT (modify/delete): lib/api-zod/src/generated/types/healthStatus.ts deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of lib/api-zod/src/generated/types/healthStatus.ts left in tree.
+CONFLICT (modify/delete): lib/api-zod/src/generated/types/index.ts deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of lib/api-zod/src/generated/types/index.ts left in tree.
+CONFLICT (modify/delete): lib/db/src/schema/index.ts deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of lib/db/src/schema/index.ts left in tree.
+CONFLICT (modify/delete): pnpm-lock.yaml deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of pnpm-lock.yaml left in tree.
+CONFLICT (modify/delete): replit.md deleted in HEAD and modified in 57c467e (Add API endpoints for offer listing, redirection, and statistics).  Version 57c467e (Add API endpoints for offer listing, redirection, and statistics) of replit.md left in tree.
+error: could not apply 57c467e... Add API endpoints for offer listing, redirection, and statistics
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+hint: Disable this message with "git config set advice.mergeConflict false"
+Could not apply 57c467e... # Add API endpoints for offer listing, redirection, and statistics
